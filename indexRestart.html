@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>React - Template</title>
+    <script src="../../js/react.min.js"></script>
+    <script src="../../js/react-dom.min.js"></script>
+    <script src="../../js/browser.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+    
+    <style>
+        body {
+            font: 14px "Century Gothic", Futura, sans-serif;
+            margin: 20px;
+            background:black;
+        }
+        
+        div#root1{
+            background: white;
+        }
+        ol, ul {
+            padding-left: 30px;
+        }
+        /* MY OWN BIT OF CSS START*/
+        .listStyle{
+            padding:5px;
+            background: rgb(216, 7, 7);
+            font-family: Levenim Mt;
+            color:white;
+            line-height:1.55;
+            margin:0;
+            list-style: none;
+            border-bottom:2px solid black;
+            
+        }
+        
+        .orderList{
+            width: 25%;
+            margin:0;
+            padding:10px;
+            height: 520px;
+        }
+        
+        .btn{
+            margin-left:10px;
+            height:40px;
+            width: 25%;
+            background: rgb(90, 246, 69);
+            font-family: Levenim MT;
+        }
+        /* MY OWN BIT OF CSS ENDS*/
+
+        .board-row:after {
+            clear: both;
+            content: "";
+            display: table;
+        }
+        
+        .status {
+            margin-bottom: 10px;
+        }
+
+        .square {
+            background: #fff;
+            border: 1px solid #999;
+            float: left;
+            font-size: 24px;
+            font-weight: bold;
+            line-height: 34px;
+            height: 34px;
+            margin-right: -1px;
+            margin-top: -1px;
+            padding: 0;
+            text-align: center;
+            width: 34px;
+        }
+
+        .square:focus {
+            outline: none;
+        }
+
+        .kbd-navigation .square:focus {
+            background: #ddd;
+        }
+
+        .game {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .game-info {
+            margin-left: 20px;
+            margin:0;
+            padding:0;
+        }
+
+        /* MY OWN MEDIA QUERIES ADDED */
+        @media only screen and (max-width:768px){
+            .orderList{
+                width: 50%;
+                margin:0;
+                padding:5px;
+            }
+
+            .btn{
+                margin-left:5px;
+                height:40px;
+                width: 50%;
+                background: rgb(90, 246, 69);
+                font-family: Levenim MT;
+            }
+        }
+        @media only screen and (max-width:360px){
+            .orderList{
+                margin:0;
+                padding:10px;
+                width:100%;
+            }
+            .btn{
+                margin-left:10px;
+                height:40px;
+                width: 25%;
+                background: rgb(90, 246, 69);
+                font-family: Levenim MT;
+            }
+        }
+        
+         /* QUERIES FOR IPHONE X */
+        @media only screen and (max-width:375px){
+            .orderList{
+                margin:0;
+                padding:10px;
+            }
+            .listStyle{
+                padding:10px;
+            }
+            
+            .btn{
+                margin-left:10px;
+                height:40px;
+                width: 25%;
+                background: rgb(90, 246, 69);
+                font-family: Levenim MT;
+            }
+        }
+        /* QUERIES FOR IPHONE 6/7/8 PLUS */
+        @media only screen and (max-width:414px){
+            .orderList{
+                margin:0;
+                padding:10px;
+                width:100%;
+            }
+            .btn{
+                margin-left:10px;
+                height:40px;
+                width: 100%;
+                background: rgb(90, 246, 69);
+                font-family: Levenim MT;
+            }
+        }
+    </style>
+    
+</head>
+<body>
+        <div id="root1"></div>
+        <div id="root"></div>
+    
+
+<script type="text/babel">
+ 
+    class Clients extends React.Component{
+        constructor(props){
+            super(props);
+            this.state = {
+                data : []
+            }
+            this.removeItem = this.removeItem.bind(this);
+            this.addMore = this.addMore.bind(this);
+
+        }
+        
+        componentDidMount(){
+            const request = new XMLHttpRequest();
+            request.open("GET","http://www.filltext.com/?rows=5&fname={firstName}&lname={lastName}&company={business}&adress={streetAddress}&city={city}", true);
+
+            request.onreadystatechange = () => {
+
+                if(request.readyState == 4){
+                    if(request.status == 200){
+                        const results = JSON.parse(request.responseText);
+                        this.setState({data:results});
+                    } else {
+                        document.getElementById('root1').innerHTML = "<h1>Something went wrong - Refresh your browser</h1>";
+                    }    
+                }  
+            }
+            request.send();
+        }
+        
+        addMore(){
+            const request = new XMLHttpRequest();
+            request.open("GET","http://www.filltext.com/?rows=5&fname={firstName}&lname={lastName}&company={business}&adress={streetAddress}&city={city}", true);
+            
+            request.onreadystatechange = () => {
+                if(request.readyState == 4){
+                    if(request.status == 200){
+                        const results = JSON.parse(request.responseText);
+                        this.setState({data:results});
+                    } else {
+                        document.getElementById('root1').innerHTML = "<h1>Something went wrong - Refresh your browser</h1>";
+                    }    
+                }  
+            }
+            request.send();
+        }
+
+        removeItem(event){
+            const index = event.target.value;
+            const data = this.state.data;
+            data.splice(index,1);
+            this.setState({ data:data});
+        }
+
+
+        render(){
+            const  userInfo = this.state.data;
+            const  results = userInfo.map((name,i)=>(
+                            <li onClick={this.removeItem}  value={i} key={i}  className='listStyle'>
+                                Name: {name.fname + " " + name.lname} <br/>
+                                Company : {name.company + " "} <br/>
+                                Address : {name.adress + " "} <br/>
+                                City : {name.city}  
+                            </li>))
+
+            return (
+                <div>
+                    <ul   className='orderList'>{results}</ul>
+                    <input type="button" className="btn" onClick={this.addMore} value='ADD NEW'/>
+                </div>
+            )
+        }
+    }
+    ReactDOM.render(<Clients/>,document.getElementById('root'));
+</script>
+    
+</body>
+</html>
