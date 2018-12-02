@@ -1,12 +1,13 @@
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>React - Template</title>
-    <script src="../../js/react.min.js"></script>
-    <script src="../../js/react-dom.min.js"></script>
-    <script src="../../js/browser.min.js"></script>
+    <script src="react.min.js"></script>
+    <script src="react-dom.min.js"></script>
+    <script src="browser.min.js"></script>
     <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
     
@@ -24,6 +25,7 @@
             padding-left: 30px;
         }
         /* MY OWN BIT OF CSS START*/
+		
         .listStyle{
             padding:5px;
             background: rgb(216, 7, 7);
@@ -43,13 +45,15 @@
             height: 520px;
         }
         
-        .btn{
+        .btn,#btnBack{
             margin-left:10px;
             height:40px;
             width: 25%;
             background: rgb(90, 246, 69);
             font-family: Levenim MT;
         }
+		
+		
         /* MY OWN BIT OF CSS ENDS*/
 
         .board-row:after {
@@ -104,7 +108,7 @@
                 padding:5px;
             }
 
-            .btn{
+            .btn,#btnBack{
                 margin-left:5px;
                 height:40px;
                 width: 50%;
@@ -118,7 +122,7 @@
                 padding:10px;
                 width:100%;
             }
-            .btn{
+            .btn,#btnBack{
                 margin-left:10px;
                 height:40px;
                 width: 25%;
@@ -137,7 +141,7 @@
                 padding:10px;
             }
             
-            .btn{
+            .btn,#btnBack{
                 margin-left:10px;
                 height:40px;
                 width: 25%;
@@ -152,7 +156,7 @@
                 padding:10px;
                 width:100%;
             }
-            .btn{
+            .btn,#btnBack{
                 margin-left:10px;
                 height:40px;
                 width: 100%;
@@ -242,8 +246,39 @@
             )
         }
     }
-    ReactDOM.render(<Clients/>,document.getElementById('root'));
+	
+	
+	class Button extends React.Component{
+		constructor(props){
+			super(props);
+			this.goBack = this.goBack.bind(this);
+		}
+		
+		goBack(){
+			window.history.back();
+		}
+		
+		render(){
+			return  <input type="button" id="btnBack" onClick={this.goBack} value="Back to home"/>
+		}
+	}
+	
+	class All extends React.Component{
+		render(){
+			return(
+			<div>
+				<Clients/>
+				<Button/>
+			</div>
+	)
+		}
+	}
+	
+	ReactDOM.render(<All/>,document.getElementById('root'));
+	
 </script>
-    
+   
+
 </body>
 </html>
+
