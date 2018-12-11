@@ -186,26 +186,12 @@
         }
         
         componentDidMount(){
-            const request = new XMLHttpRequest();
-            request.open("GET","http://www.filltext.com/?rows=5&fname={firstName}&lname={lastName}&company={business}&adress={streetAddress}&city={city}", true);
-
-            request.onreadystatechange = () => {
-
-                if(request.readyState == 4){
-                    if(request.status == 200){
-                        const results = JSON.parse(request.responseText);
-                        this.setState({data:results});
-                    } else {
-                        document.getElementById('root1').innerHTML = "<h1>Something went wrong - Refresh your browser</h1>";
-                    }    
-                }  
-            }
-            request.send();
+          this.addMore();
         }
         
         addMore(){
-            const request = new XMLHttpRequest();
-            request.open("GET","http://www.filltext.com/?rows=5&fname={firstName}&lname={lastName}&company={business}&adress={streetAddress}&city={city}", true);
+             const request = new XMLHttpRequest();
+            request.open("GET","https://jsonplaceholder.typicode.com/users/", true);
             
             request.onreadystatechange = () => {
                 if(request.readyState == 4){
